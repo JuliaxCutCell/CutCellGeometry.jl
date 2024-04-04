@@ -1,12 +1,3 @@
-# CutCellGeometry
-
-[![Build Status](https://github.com/fastaxx/CutCellGeometry.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/fastaxx/CutCellGeometry.jl/actions/workflows/CI.yml?query=branch%3Amain)
-
-## Overview
-CutCellGeometry.jl is a Julia package designed for geometry immersion into meshes. It offers functionalities for constructing geometries in 1D, 2D, and 3D spaces, as well as handling geometry motion.
-
-## Usage
-```
 using CutCellMesh # Mesh generation
 using CutCellGeometry # Geometry definition
 
@@ -36,11 +27,3 @@ moving_sdf = SignedDistanceFunction(union_sdf.sdf_function, move_transform, unio
 t=2.0
 plot_sdf(moving_sdf, domain, t)
 readline()
-```
-
-## ToDo
-- Normals, Curvatures
-- Parametric Curve
-- Multiple Phase Initialization : N=3 =>Phi=0/0.5/1
-- Driver for VOFI/CartesianGeometry(vlc) or reimplement (mouais non)
-- Docs + Notebooks

@@ -1,5 +1,16 @@
 module CutCellGeometry
+using CutCellMesh
+using ForwardDiff
+using Plots
+Plots.default(show = true)
+# Include files
+include("body.jl")
+include("plot.jl")
 
-# Write your package code here.
+# Export functions
+export SignedDistanceFunction, evaluate_sdf, ⊔, ⊓, ⊖, complement
+export plot_sdf
 
-end
+end # module CutCellGeometry
+
+
