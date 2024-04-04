@@ -3,6 +3,7 @@ using CutCellMesh
 using ForwardDiff
 using Plots
 Plots.default(show = true)
+
 # Include files
 include("body.jl")
 include("plot.jl")
