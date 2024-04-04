@@ -1,2 +1,3 @@
-# CutCellGeometry.jl
-CutCellGeometry.jl is a Julia package designed for geometry immersion into meshes. It offers functionalities for constructing geometries in 1D, 2D, and 3D spaces, as well as handling geometry motion.
+# CutCellGeometry
+
+[![Build Status](https://github.com/fastaxx/CutCellGeometry.jl/actions/workflows/CI.yml/badge.svg?branch=main)](https://github.com/fastaxx/CutCellGeometry.jl/actions/workflows/CI.yml?query=branch%3Amain)
