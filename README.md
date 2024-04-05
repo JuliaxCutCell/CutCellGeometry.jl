@@ -16,8 +16,8 @@ mesh = generate_mesh(grid)
 domain = ((minimum(mesh[1]), maximum(mesh[1])), (minimum(mesh[2]), maximum(mesh[2])))
 
 # SignedDistanceFunction
-circle_function = (x, y) -> sqrt(x^2 + y^2) - 0.5
-square_function = (x, y) -> max(abs(x), abs(y)) - 0.5
+circle_function = (x, y, _=0) -> sqrt(x^2 + y^2) - 0.5
+square_function = (x, y, _=0) -> max(abs(x), abs(y)) - 0.5
 identity_transform = (x, y, t) -> (x, y)
 
 # Create Geometry
@@ -47,6 +47,10 @@ println("Courbure pour le cercle au point (0.5, 0.5)", curvature(circle_function
 t=0.0
 plot_sdf(moving_sdf, domain, t)
 readline()
+
+# Geometric Moments
+V, v_diag, bary, ax_diag, ay_diag = calculate_first_order_moments(circle_sdf.sdf_function, mesh)
+w_diag, bx_diag, by_diag, border_cells_wx, border_cells_wy = calculate_second_order_moments(circle_sdf.sdf_function, mesh, bary)
 ```
 
 ## ToDo
@@ -57,5 +61,4 @@ readline()
 - Parametric Curve
 - Multiple Phase Initialization : N=3 =>Phi=0/0.5/1
 - Limits bounds domain when transform(t)
-- Driver for VOFI/CartesianGeometry(vlc) or reimplement (mouais non)
 - Docs + Notebooks
