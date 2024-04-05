@@ -50,6 +50,9 @@ readline()
 ```
 
 ## ToDo
+- Marching Cubes algorithm to generate a mesh from the Signed Distance Function.
+- Add Reference Function (Sphere, Torus, Cube ,...), Infinite 3D Primitives, Text, Images extruded
+- Positioning Function (translate, scale, ...), Repetition
 - Parametric Curve
 - Multiple Phase Initialization : N=3 =>Phi=0/0.5/1
 - Limits bounds domain when transform(t)
