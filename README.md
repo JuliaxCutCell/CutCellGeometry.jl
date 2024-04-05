@@ -16,31 +16,42 @@ mesh = generate_mesh(grid)
 domain = ((minimum(mesh[1]), maximum(mesh[1])), (minimum(mesh[2]), maximum(mesh[2])))
 
 # SignedDistanceFunction
-sphere_function = (x, y, z) -> sqrt(x^2 + y^2 + z^2) - 1.0
-cube_function = (x, y, z) -> max(abs(x), max(abs(y), abs(z))) - 1.0
-identity_transform = (x, y, z, t) -> (x, y, z)
+circle_function = (x, y) -> sqrt(x^2 + y^2) - 0.5
+square_function = (x, y) -> max(abs(x), abs(y)) - 0.5
+identity_transform = (x, y, t) -> (x, y)
 
 # Create Geometry
-sphere_sdf = SignedDistanceFunction(sphere_function, identity_transform, domain, false)
-cube_sdf = SignedDistanceFunction(cube_function, identity_transform, domain, false)
+circle_sdf = SignedDistanceFunction(circle_function, identity_transform, domain, false)
+square_sdf = SignedDistanceFunction(square_function, identity_transform, domain, false)
 
 # Union of two signed distance functions
-union_sdf = sphere_sdf ⊔ cube_sdf
+union_sdf = circle_sdf ⊔ square_sdf
 
 # Transformation function
-move_transform = (x, y, z, t) -> (x + t, y, z)
+move_transform = (x, y, t) -> ((x-0.25) + 2*t, (y-0.25))
 
 # Move the union of two signed distance functions
 moving_sdf = SignedDistanceFunction(union_sdf.sdf_function, move_transform, union_sdf.domain, true)
 
-t=2.0
+# Print the normal vector at a given point
+println("Normal au point (0.5, 0.5) pour le cercle", normal(circle_sdf.sdf_function, (0.5, 0.5)))
+
+# Calculer le vecteur tangentiel
+tangent = tangent_vector(normal(circle_sdf.sdf_function, (0.5, 0.5)))
+println("Vecteur tangentiel au point (0.5, 0.5) pour le cercle", tangent)
+
+# Calculer la courbure pour le cercle
+println("Courbure pour le cercle au point (0.5, 0.5)", curvature(circle_function.sdf_function, (0.5, 0.5)))
+
+# Plot
+t=0.0
 plot_sdf(moving_sdf, domain, t)
 readline()
 ```
 
 ## ToDo
-- Normals, Curvatures
 - Parametric Curve
 - Multiple Phase Initialization : N=3 =>Phi=0/0.5/1
+- Limits bounds domain when transform(t)
 - Driver for VOFI/CartesianGeometry(vlc) or reimplement (mouais non)
 - Docs + Notebooks

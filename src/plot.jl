@@ -24,6 +24,6 @@ function plot_sdf(sdf, domain, t)
         z_range = LinRange(domain[3][1], domain[3][2], 100)
         contour(x_range, y_range, z_range, (x, y, z) -> evaluate_sdf(sdf, t, x, y, z), levels=[0.0], color=:red, linewidth=2)
     else
-        println("Dimension non prise en charge")
+        println("Only 1D, 2D, and 3D domains are supported.")
     end
 end
