@@ -50,6 +50,7 @@ readline()
 ```
 
 ## ToDo
+- Revoir Plot 1D cutcells
 - Marching Cubes algorithm to generate a mesh from the Signed Distance Function.
 - Add Reference Function (Sphere, Torus, Cube ,...), Infinite 3D Primitives, Text, Images extruded
 - Positioning Function (translate, scale, ...), Repetition
