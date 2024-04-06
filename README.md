@@ -49,8 +49,16 @@ plot_sdf(moving_sdf, domain, t)
 readline()
 
 # Geometric Moments
-V, v_diag, bary, ax_diag, ay_diag = calculate_first_order_moments(circle_sdf.sdf_function, mesh)
-w_diag, bx_diag, by_diag, border_cells_wx, border_cells_wy = calculate_second_order_moments(circle_sdf.sdf_function, mesh, bary)
+# First order moments
+V, bary, As = calculate_first_order_moments(circle_sdf.sdf_function, mesh)
+
+# Second order moments
+Ws, Bs = calculate_second_order_moments(circle_sdf.sdf_function, mesh, bary)
+
+# Extract the diagonal matrices for the 2D case
+v_diag, ax_diag, ay_diag = first_aperture_2D(V, bary, As)
+wx_diag, bx_diag = second_aperture_2D(Ws, Bs)
+
 ```
 
 ## ToDo
