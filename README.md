@@ -62,9 +62,7 @@ wx_diag, bx_diag = second_aperture_2D(Ws, Bs)
 ```
 
 ## ToDo
-- Revoir Plot 1D cutcells
 - Marching Cubes algorithm to generate a mesh from the Signed Distance Function.
-- Add Reference Function (Sphere, Torus, Cube ,...), Infinite 3D Primitives, Text, Images extruded
 - Positioning Function (translate, scale, ...), Repetition
 - Parametric Curve
 - Multiple Phase Initialization : N=3 =>Phi=0/0.5/1

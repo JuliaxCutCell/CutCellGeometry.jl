@@ -13,16 +13,16 @@ function plot_sdf(sdf, domain, t)
     dim = length(domain)
     if dim == 1
         x_range = LinRange(domain[1][1], domain[1][2], 100)
-        plot(x_range, x -> evaluate_sdf(sdf, t, x), color=:red, linewidth=2)
+        Plots.plot(x_range, x -> evaluate_sdf(sdf, t, x), color=:red, linewidth=2)
     elseif dim == 2
         x_range = LinRange(domain[1][1], domain[1][2], 100)
         y_range = LinRange(domain[2][1], domain[2][2], 100)
-        contour(x_range, y_range, (x, y) -> evaluate_sdf(sdf, t, x, y), levels=[0.0], color=:red, linewidth=2)
+        Plots.contour(x_range, y_range, (x, y) -> evaluate_sdf(sdf, t, x, y), levels=[0.0], color=:red, linewidth=2)
     elseif dim == 3
-        x_range = LinRange(domain[1][1], domain[1][2], 100)
-        y_range = LinRange(domain[2][1], domain[2][2], 100)
-        z_range = LinRange(domain[3][1], domain[3][2], 100)
-        contour(x_range, y_range, z_range, (x, y, z) -> evaluate_sdf(sdf, t, x, y, z), levels=[0.0], color=:red, linewidth=2)
+        x_range = collect(LinRange(domain[1][1], domain[1][2], 100))
+        y_range = collect(LinRange(domain[2][1], domain[2][2], 100))
+        z_range = collect(LinRange(domain[3][1], domain[3][2], 100))
+        S = [evaluate_sdf(sdf, t, x, y, z) for x in x_range, y in y_range, z in z_range]
     else
         println("Only 1D, 2D, and 3D domains are supported.")
     end
