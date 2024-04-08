@@ -13,7 +13,11 @@ function plot_sdf(sdf, domain, t)
     dim = length(domain)
     if dim == 1
         x_range = LinRange(domain[1][1], domain[1][2], 100)
-        Plots.plot(x_range, x -> evaluate_sdf(sdf, t, x), color=:red, linewidth=2)
+        y_values = [evaluate_sdf(sdf, t, x) for x in x_range]
+        Plots.plot(x_range, y_values, color=:red, linewidth=2, label="SDF")
+
+        zero_point_index = findmin(abs.(y_values))[2]
+        Plots.scatter!([x_range[zero_point_index]], [0], color=:blue, markersize=20, label="Front (Zero SDF)")
     elseif dim == 2
         x_range = LinRange(domain[1][1], domain[1][2], 100)
         y_range = LinRange(domain[2][1], domain[2][2], 100)
@@ -109,4 +113,26 @@ function plot_cut_cells_levelset_intersections_and_midpoints(cut_cells, values, 
     display(plt)
     readline()
 
+end
+
+"""
+plot_front_points(points_P)
+
+Plot the points in `points_P` in a scatter plot.
+
+# Arguments
+- `points_P`: An array of points to be plotted. Each point can be 0D, 1D, 2D, or 3D.
+
+# Examples
+"""
+function plot_front_points(points_P)
+    if ndims(points_P[1]) == 0  # 1D
+        scatter(points_P, zeros(length(points_P)), label="Points P", color=:red)
+    elseif ndims(points_P[1]) == 1 && length(points_P[1]) == 2  # 2D
+        scatter([p[1] for p in points_P], [p[2] for p in points_P], label="Points P", color=:red)
+    elseif ndims(points_P[1]) == 1 && length(points_P[1]) == 3  # 3D
+        scatter([p[1] for p in points_P], [p[2] for p in points_P], [p[3] for p in points_P], label="Points P", color=:red)
+    else
+        println("Dimensions non prises en charge pour le traçage")
+    end
 end

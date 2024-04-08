@@ -360,3 +360,86 @@ function get_segment_midpoints(values::AbstractArray{<:Any,3}, cut_cells, inters
 
     return midpoints
 end
+
+
+"""
+    get_edges(mesh)
+
+Given a mesh `mesh`, this function returns the edges of the mesh.
+
+# Arguments
+- `mesh`: A 1D, 2D, or 3D mesh represented as an array of coordinates.
+
+# Returns
+- `edges`: An array of edges of the mesh.
+
+# Examples
+"""
+function get_edges(mesh)
+    if length(mesh) == 1  # 1D
+        x = mesh[1]
+        edges = [[x[i], x[i+1]] for i in 1:length(x)-1]
+    elseif length(mesh) == 2  # 2D
+        x, y = mesh
+        edges = []
+        for i in 1:length(x)-1
+            for j in 1:length(y)-1
+                push!(edges, [[x[i], y[j]], [x[i+1], y[j]]])
+                push!(edges, [[x[i], y[j]], [x[i], y[j+1]]])
+            end
+        end
+    else  # 3D
+        x, y, z = mesh
+        edges = []
+        for i in 1:length(x)-1
+            for j in 1:length(y)-1
+                for k in 1:length(z)-1
+                    push!(edges, [[x[i], y[j], z[k]], [x[i+1], y[j], z[k]]])
+                    push!(edges, [[x[i], y[j], z[k]], [x[i], y[j+1], z[k]]])
+                    push!(edges, [[x[i], y[j], z[k]], [x[i], y[j], z[k+1]]])
+                end
+            end
+        end
+    end
+    return edges
+end
+
+"""
+    get_front_positions(front_sdf::SignedDistanceFunction, mesh::Tuple{AbstractVector})
+
+Compute the positions of the front points where the signed distance function (SDF) is zero for each edge in the given mesh.
+
+# Arguments
+- `front_sdf::SignedDistanceFunction`: The signed distance function representing the front.
+- `mesh::Tuple{AbstractVector}`: The mesh represented as a tuple of abstract vectors.
+
+# Returns
+An array of front positions where the SDF is zero.
+
+# Example
+"""
+function get_front_positions(front_sdf::SignedDistanceFunction, mesh)
+    # Obtenir toutes les arêtes du maillage
+    aretes = get_edges(mesh)
+
+    # Créer une liste pour stocker les points P où Phi=0
+    points_P = []
+
+    # Calculer le point P où Phi=0 pour chaque arête
+    for arete in aretes
+        # Paramétriser l'arête
+        f(t) = front_sdf.sdf_function((arete[1] .+ t .* (arete[2] .- arete[1]))...)
+        try
+            # Utiliser la méthode de la bissection pour trouver le point P
+            t0 = find_zero(f, (0.0, 1.0), Bisection())
+            x0 = arete[1] + t0 * (arete[2] - arete[1])
+            
+            # Ajouter le point P à la liste des points P
+            push!(points_P, x0)
+        catch e
+            #println("Aucun point P trouvé sur l'arête entre les points $(arete[1]) et $(arete[2])")
+        end
+    end
+
+    return points_P
+end

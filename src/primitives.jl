@@ -1,3 +1,6 @@
+# 1D 
+front_1D(position::Float64) = (x, _=0) -> x - position
+
 # Hypersphere
 cercle(center::Tuple{Float64, Float64}, radius::Float64) = (x, y, _=0) -> sqrt((x - center[1])^2 + (y - center[2])^2) - radius
 sphere(center::Tuple{Float64, Float64, Float64}, radius::Float64) = (x, y, z) -> sqrt((x - center[1])^2 + (y - center[2])^2 + (z - center[3])^2) - radius
